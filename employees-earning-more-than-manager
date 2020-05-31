@@ -1,0 +1,10 @@
+select Employee
+from
+(
+select e1.Id as eid, e1.name as Employee, e1.Salary as es, e1.ManagerId as mid, e2.Salary as ms
+from employee e1
+left join employee e2
+on e1.ManagerId = e2.Id
+order by e1.id
+) as emp_temp
+where es > ms and mid is not null  
