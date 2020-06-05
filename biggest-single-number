@@ -1,0 +1,10 @@
+with temp_my_num as (
+select num,count(num) as count_num
+from my_numbers
+group by num
+order by count_num, num desc
+limit 1
+)
+select null as num from temp_my_num where not exists (select num from temp_my_num where count_num = 1)
+union
+select num from temp_my_num where count_num = 1
