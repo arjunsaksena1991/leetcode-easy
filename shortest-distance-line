@@ -1,0 +1,7 @@
+with ref_table as (
+select p1.x as x1,p2.x as x2, abs(p1.x-p2.x) as distance
+from point p1
+inner join point p2
+on p1.x != p2.x
+)
+select min(distance) as shortest from ref_table
