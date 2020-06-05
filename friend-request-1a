@@ -1,0 +1,17 @@
+Not sure why the answer is a bit weird for Q1 but this is my solution:
+
+with comb_table as (
+select sender_id, send_to_id, requester_id, accepter_id
+from friend_request
+left join request_accepted
+on 
+sender_id = requester_id and
+send_to_id = accepter_id
+group by sender_id, accepter_id
+)
+select round(coalesce(count(requester_id)/count(sender_id),0),2) as accept_rate
+from comb_table
+
+Also accepted since there is no correlation between dates:
+select ifnull(round((count(distinct requester_id,accepter_id)/count(distinct sender_id,send_to_id)),2),0.00) as accept_rate
+from friend_request, request_accepted
