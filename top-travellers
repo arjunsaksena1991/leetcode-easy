@@ -1,0 +1,13 @@
+with rides_total as 
+(
+select user_id, sum(distance) as total_distance
+from rides
+group by user_id
+)
+
+select u.name as name, coalesce(r.total_distance,0) as travelled_distance
+from users u
+left join rides_total r
+on u.id = r.user_id
+group by u.name
+order by travelled_distance desc, name asc
