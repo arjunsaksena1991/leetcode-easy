@@ -1,0 +1,26 @@
+
+with temp_session as
+(
+select session_id, duration as duration_seconds, round(duration/60,2) as duration_minutes,
+CASE
+    when round(duration/60,2) Between 0 and 4.99 then "[0-5>"
+    when round(duration/60,2) Between 5 and 9.99 then "[5-10>"
+    when round(duration/60,2) Between 10 and 14.99 then "[10-15>"
+    else "15 or more"
+END as bin
+from sessions
+)
+select b.bin as BIN, coalesce(count(t.session_id),0) as TOTAL
+from
+(
+select "[0-5>" as bin
+union all
+select "[5-10>" as bin
+union all
+select "[10-15>"
+union all
+select "15 or more"
+) b
+left join temp_session t
+on b.bin = t.bin
+group by b.bin
