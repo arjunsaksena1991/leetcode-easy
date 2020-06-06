@@ -1,0 +1,16 @@
+with temp_delivery as
+(
+select delivery_id, customer_id, order_date, customer_pref_delivery_date, 
+CASE
+    when order_date = customer_pref_delivery_date then "immediate"
+    else "scheduled"
+END as order_call
+from delivery
+)
+select 
+round(
+    sum(if(order_call = "immediate",1,0)) *100
+    / 
+    count(delivery_id)
+,2) as immediate_percentage
+from temp_delivery
