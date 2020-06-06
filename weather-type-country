@@ -1,0 +1,16 @@
+with weather_condition as(
+select country_id, weather_state, day, avg(weather_state) as average_weather
+from weather
+where extract(month from day) = 11 and extract(year from day) = 2019
+group by country_id
+order by country_id
+)
+select country_name, 
+case
+when average_weather <= 15 then "Cold"
+when average_weather >= 25 then "Hot"
+else "Warm"
+end as weather_type
+from weather_condition wc
+left join countries c
+on wc.country_id = c.country_id
