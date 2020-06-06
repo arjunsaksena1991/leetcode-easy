@@ -1,0 +1,14 @@
+with ads_analysis as(
+select ad_id,
+sum(if(action = 'Clicked',1,0)) as total_clicks,
+sum(if(((action = 'Clicked') or (action = "Viewed")),1,0)) as total_impressions
+from ads
+group by ad_id
+)
+select ad_id, 
+Case
+when total_impressions = 0 then 0
+else round((total_clicks / total_impressions)*100,2)
+end  as ctr
+from ads_analysis
+order by ctr desc, ad_id
