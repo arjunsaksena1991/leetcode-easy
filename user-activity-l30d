@@ -1,0 +1,6 @@
+select activity_date as day, ifnull(count(distinct user_id),0) as active_users
+from activity
+where activity_date <= "2019-07-27"
+and 
+datediff("2019-07-27", activity_date) <30
+group by activity_date
