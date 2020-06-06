@@ -1,0 +1,10 @@
+with team_size_count as
+(
+select team_id, count(employee_id) as team_size
+from employee
+group by team_id
+)
+select employee_id, team_size
+from employee e
+left join team_size_count
+using (team_id)
