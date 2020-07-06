@@ -1,0 +1,17 @@
+with tv_filter as
+(
+select content_id
+from tvprogram
+where 
+extract(month from program_date) = 6
+and
+extract(year from program_date) = 2020
+)
+select title
+from content
+where 
+content_id in (select content_id from tv_filter)
+and 
+kids_content = "Y"
+and 
+content_type = "Movies"
