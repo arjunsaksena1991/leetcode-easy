@@ -1,0 +1,9 @@
+with sales_product as
+(
+select lower(ltrim(rtrim(product_name))) as product_name, date_format(sale_date,'%Y-%m') as sale_date
+from sales
+)
+select product_name, sale_date, count(product_name) as total
+from sales_product
+group by sale_date, product_name
+order by product_name, sale_date
