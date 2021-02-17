@@ -1,0 +1,15 @@
+with temp as (
+ select 
+    a1.machine_id as machine_id, 
+    a1.process_id as process_id, 
+    (a2.timestamp - a1.timestamp) as run_time
+ from activity a1
+ join activity a2
+ on a1.machine_id = a2.machine_id and
+    a1.process_id = a2.process_id and
+    a1.timestamp < a2.timestamp
+ group by machine_id, process_id
+)
+select machine_id, round(avg(run_time),3) as processing_time
+from temp
+group by machine_id
