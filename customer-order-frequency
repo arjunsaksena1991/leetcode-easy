@@ -1,0 +1,13 @@
+select customer_id, name from customers 
+where customer_id in
+(
+select customer_id
+from orders
+join product
+using(product_id)
+group by customer_id
+having 
+sum(case when date_format(order_date, "%Y-%m") = '2020-06' then price * quantity end) >= 100
+and 
+sum(case when date_format(order_date, "%Y-%m") = '2020-07' then price * quantity end) >= 100
+)
