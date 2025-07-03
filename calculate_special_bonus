@@ -4,3 +4,4 @@ WHEN employee_id%2=1 and name not REGEXP '^M' THEN salary
 ELSE 0
 END as bonus
 from Employees
+order by employee_id asc
